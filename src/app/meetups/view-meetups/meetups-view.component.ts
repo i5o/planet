@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CouchService } from '../../shared/couchdb.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { takeUntil, switchMap, map } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { MeetupService } from '../meetups.service';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../shared/user.service';
 import { findDocuments } from '../../shared/mangoQueries';
-import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Component({
   templateUrl: './meetups-view.component.html',
@@ -22,6 +21,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
     * {
       max-width: 100%;
       max-height: 60vh;
+      overflow: auto;
     }
   }
   .meetup-details {
@@ -45,7 +45,7 @@ export class MeetupsViewComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getMeetups();
+    this.getEnrolledUsers();
     this.route.paramMap
       .debug('Getting meetup id from parameters')
       .pipe(takeUntil(this.onDestroy$))
@@ -68,7 +68,7 @@ export class MeetupsViewComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  getMeetups() {
+  getEnrolledUsers() {
     // find meetupId on User shelf
     return this.couchService.post('shelf/_find', findDocuments({
       'meetupIds': { '$in': [ this.route.snapshot.paramMap.get('id') ] }
