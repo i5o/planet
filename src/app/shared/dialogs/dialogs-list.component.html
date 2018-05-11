@@ -1,12 +1,22 @@
 <mat-table [dataSource]="tableData">
-  <ng-container *ngFor="let column of tableColumns" [matColumnDef]="column">
-    <mat-header-cell *matHeaderCellDef>{{column}}</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{element[column]}}</mat-cell>
+  <ng-container matColumnDef="select">
+    <mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
+        i18n>
+      </mat-checkbox>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-checkbox (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+      </mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container  matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef i18n>Title</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.title}}</mat-cell>
   </ng-container>
   <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
   <mat-row
     *matRowDef="let row; columns: tableColumns"
-    (click)="selection.toggle(row)"
     [ngClass]="{highlight:selection.isSelected(row)}"
     class="cursor-pointer">
   </mat-row>

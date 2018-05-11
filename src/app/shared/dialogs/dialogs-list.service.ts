@@ -3,7 +3,7 @@ import { CouchService } from '../couchdb.service';
 import { map } from 'rxjs/operators';
 
 const listColumns = {
-  'resources': [ 'title' ]
+  'resources': [ 'select', 'title' ]
 };
 
 @Injectable()

@@ -14,7 +14,7 @@ export class DialogsListComponent {
 
   tableData: any = [];
   tableColumns: string[] = [];
-  selection = new SelectionModel(false, []);
+  selection = new SelectionModel(true, []);
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.tableData = this.data.tableData;
@@ -22,7 +22,21 @@ export class DialogsListComponent {
   }
 
   ok() {
-    this.data.okClick(this.selection.selected[0]);
+    this.data.okClick(this.selection.selected);
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.tableData.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+    this.selection.clear() :
+    this.tableData.forEach(row => this.selection.select(row));
   }
 
 }

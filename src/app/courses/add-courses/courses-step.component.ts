@@ -19,7 +19,7 @@ export class CoursesStepComponent implements OnChanges {
     id: '',
     stepTitle: '',
     description: '',
-    attachment: ''
+    resources: []
   };
   @Output() stepInfoChange = new EventEmitter<any>();
   @Input() stepNum: number;
@@ -30,7 +30,7 @@ export class CoursesStepComponent implements OnChanges {
 
   stepForm: FormGroup;
   dialogRef: MatDialogRef<DialogsListComponent>;
-  attachment: any;
+  resources: any;
 
   constructor(
     private fb: FormBuilder,
@@ -40,7 +40,7 @@ export class CoursesStepComponent implements OnChanges {
 
   ngOnChanges() {
     this.stepForm = this.fb.group(this.stepInfo);
-    this.attachment = this.stepForm.controls.attachment.value;
+    this.resources = this.stepForm.controls.resources.value;
   }
 
   stepChange() {
@@ -59,14 +59,16 @@ export class CoursesStepComponent implements OnChanges {
     this.dialogsListService.getListAndColumns(db).subscribe((res) => {
       const data = { okClick: this.dialogOkClick(db).bind(this), ...res };
       this.dialogRef = this.dialog.open(DialogsListComponent, {
-        data: data
+        data: data,
+        height: '500px',
+        width: '500px'
       });
     });
   }
 
   dialogOkClick(db: string) {
     return (item: any) => {
-      this.stepForm.patchValue({ attachment: { doc: item, type: db } });
+      this.stepForm.patchValue({ resources: item });
       this.stepChange();
       this.dialogRef.close();
     };
