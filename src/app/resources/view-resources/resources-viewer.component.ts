@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnChanges, EventEmitter, Output } from '@angular/core';
 
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
@@ -11,11 +11,9 @@ import { ResourcesService } from '../resources.service';
   templateUrl: './resources-viewer.component.html',
   styleUrls: [ './resources-viewer.scss' ]
 })
-export class ResourcesViewerComponent implements OnChanges, OnDestroy {
+export class ResourcesViewerComponent implements OnChanges {
 
-  @Input() resourceId: string;
   @Input() resource: any;
-  @Output() resourceUrl = new EventEmitter<any>();
   mediaType: string;
   contentType: string;
   resourceSrc: string;
@@ -29,20 +27,7 @@ export class ResourcesViewerComponent implements OnChanges, OnDestroy {
   ) { }
 
   ngOnChanges() {
-    if (this.resource === undefined || this.resource._id !== this.resourceId) {
-      this.resourcesService.resourcesUpdated$.pipe(takeUntil(this.onDestroy$))
-        .subscribe((resourceArr) => {
-          this.setResource(resourceArr[0]);
-        });
-      this.resourcesService.updateResources({ resourceIds: [ this.resourceId ] });
-    } else {
-      this.setResource(this.resource);
-    }
-  }
-
-  ngOnDestroy() {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
+    this.setResource(this.resource);
   }
 
   setResource(resource: any) {
@@ -59,8 +44,6 @@ export class ResourcesViewerComponent implements OnChanges, OnDestroy {
     if (this.mediaType === 'pdf' || this.mediaType === 'HTML') {
       this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.resourceSrc);
     }
-    // Emit resource src so parent component can use for links
-    this.resourceUrl.emit(this.resourceSrc);
   }
 
 }

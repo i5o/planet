@@ -68,7 +68,7 @@ export class CoursesStepComponent implements OnChanges {
 
   dialogOkClick(db: string) {
     return (item: any) => {
-      this.stepForm.patchValue({ resources: item });
+      this.stepForm.patchValue({ resources: { docs: item, type: db } });
       this.stepChange();
       this.dialogRef.close();
     };

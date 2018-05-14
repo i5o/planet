@@ -1,3 +1,15 @@
+<div class="resource-detail bg-light-grey" [ngClass]="{'invisible':fullView==='on'}">
+  <p>Title: <i>{{resource.title}}</i></p>
+  <p>Author: <i>{{resource.author}}</i></p>
+  <p>Published by: {{resource.Publisher}} on {{resource.year}}</p>
+  <p>Media: {{ resource.medium }}</p>
+  <p>Language: {{ resource.language }}</p>
+  <p>Subject/s: {{resource.subject}}</p>
+  <p>Link to License: <a href={{resource.linkToLicense}} target="_blank">{{resource.linkToLicense}}</a></p>
+  <p>Resource: {{ resource.resourceFor }}</p>
+  <p>Resource Type: {{ resource.resourceType }}</p>
+  <a mat-raised-button color="accent"class="margin-lr-10" *ngIf="resource['_attachments']" [href]="resourceSrc" target="_blank" i18n> Open resource new tab</a>
+</div>
 <div [ngSwitch]="mediaType">
   <img [src]="resourceSrc" *ngSwitchCase="'image'">
   <video controls *ngSwitchCase="'video'">

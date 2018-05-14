@@ -2,21 +2,17 @@
   <a mat-icon-button (click)="backToCourseDetail()"><mat-icon>arrow_back</mat-icon></a>
   <span i18n>Course</span>
 </mat-toolbar>
-
 <div class="space-container">
   <mat-toolbar class="primary-color font-size-1">
       <span class="margin-lr-3"><h3><ng-container i18n>Step</ng-container> {{stepNum}}: {{stepDetail.stepTitle}}</h3></span>
     <span class="toolbar-fill"></span>
-    <a
-      mat-raised-button
-      color="accent"
-      class="margin-lr-10"
-      *ngIf="stepDetail.attachment"
-      [href]="resourceUrl"
-      target="_blank"
-      i18n>
-      Open resource new tab
-    </a>
+    <mat-form-field *ngIf="stepDetail.resources">
+      <mat-select i18n-placeholder placeholder="List of Resources" [value]="selectedValue" (change)="onChange($event.value)">
+        <mat-option class="margin-lr-10" *ngFor="let resource of stepDetail.resources.docs" [value]="resource">
+          {{ resource.title }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <span i18n>{{stepNum}}/{{maxStep}}</span>
     <button mat-icon-button [disabled]="stepNum === 1" (click)="changeStep(-1)"><mat-icon>navigate_before</mat-icon></button>
     <button mat-icon-button [disabled]="stepNum === maxStep" (click)="changeStep(1)"><mat-icon>navigate_next</mat-icon></button>
@@ -24,9 +20,8 @@
   <div class="view-container view-full-height">
     <div class="description">{{stepDetail.description}}</div>
     <planet-resources-viewer
-      *ngIf="stepDetail.attachment"
-      [resourceId]="stepDetail.attachment.doc._id"
-      (resourceUrl)="setResourceUrl($event)">
+      *ngIf="resource"
+      [resource]= resource>
     </planet-resources-viewer>
   </div>
 </div>
