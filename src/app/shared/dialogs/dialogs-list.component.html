@@ -1,3 +1,9 @@
+<div class="search-bar">
+  <mat-icon>search</mat-icon>
+  <mat-form-field class="font-size-1">
+    <input matInput (keyup)="applyFilter($event.target.value)" i18n-placeholder placeholder="Search">
+  </mat-form-field>
+</div>
 <mat-table [dataSource]="tableData">
   <ng-container matColumnDef="select">
     <mat-header-cell *matHeaderCellDef>
@@ -21,6 +27,10 @@
     class="cursor-pointer">
   </mat-row>
 </mat-table>
+<mat-paginator #paginator
+  [pageSize]="5"
+  [pageSizeOptions]="[5, 10, 20]">
+</mat-paginator>
 <mat-dialog-actions>
   <button mat-button (click)="ok()" [disabled]="!selection.hasValue()" i18n>OK</button>
   <button mat-button mat-dialog-close i18n>Cancel</button>
