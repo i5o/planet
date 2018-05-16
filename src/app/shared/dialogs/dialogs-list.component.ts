@@ -15,6 +15,9 @@ import { SelectionModel } from '@angular/cdk/collections';
       align-items: center;
       justify-content: flex-end;
     }
+    .mat-column-select {
+      max-width: 44px;
+    }
   ` ]
 })
 export class DialogsListComponent implements AfterViewInit {
@@ -41,7 +44,7 @@ export class DialogsListComponent implements AfterViewInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.tableData.length;
+    const numRows = this.tableData.data.length;
     return numSelected === numRows;
   }
 
@@ -49,7 +52,7 @@ export class DialogsListComponent implements AfterViewInit {
   masterToggle() {
     this.isAllSelected() ?
     this.selection.clear() :
-    this.tableData.forEach(row => this.selection.select(row));
+    this.tableData.data.forEach(row => this.selection.select(row));
   }
 
   applyFilter(filterValue: string) {
