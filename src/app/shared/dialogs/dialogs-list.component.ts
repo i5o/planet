@@ -18,6 +18,10 @@ import { SelectionModel } from '@angular/cdk/collections';
     .mat-column-select {
       max-width: 44px;
     }
+    mat-table {
+      overflow-y: auto;
+      height: calc(100% - 160px);
+    }
   ` ]
 })
 export class DialogsListComponent implements AfterViewInit {
@@ -31,6 +35,9 @@ export class DialogsListComponent implements AfterViewInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.tableData.data = this.data.tableData;
     this.tableColumns = this.data.columns;
+    if (this.data.filterPredicate) {
+      this.tableData.filterPredicate = this.data.filterPredicate;
+    }
   }
 
   ngAfterViewInit() {

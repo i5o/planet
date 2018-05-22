@@ -13,6 +13,15 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <a
+      mat-raised-button
+      color="accent"
+      class="margin-lr-10"
+      *ngIf="stepDetail.exam"
+      (click)="goToExam()"
+      i18n>
+      Take exam
+    </a>
     <span i18n>{{stepNum}}/{{maxStep}}</span>
     <button mat-icon-button [disabled]="stepNum === 1" (click)="changeStep(-1)"><mat-icon>navigate_before</mat-icon></button>
     <button mat-icon-button [disabled]="stepNum === maxStep" (click)="changeStep(1)"><mat-icon>navigate_next</mat-icon></button>
